@@ -12,5 +12,6 @@
                         :serial t
                         :components ((:file "package")
                                      (:file "utils")
+                                     (:file "optimize")
                                      (:file "let")
                                      (:file "match")))))

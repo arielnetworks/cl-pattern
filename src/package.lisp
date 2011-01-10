@@ -4,6 +4,4 @@
   (:use :cl :alexandria)
   (:nicknames :pattern)
   (:export :let+
-           :let+/test
-           :match
-           :match/test))
+           :match))
