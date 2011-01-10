@@ -17,22 +17,27 @@ Usage
     (match 1
       (x x))
     ; => 1
+    
     (match '(1 2)
       ((x y) (+ x y)))
     ; => 3
+    
     (match '(:bar 1)
-      ((:foo x) "Foo!")
-      ((:bar x) "Bar!"))
+      ((:foo _) "Foo!")
+      ((:bar _) "Bar!"))
     ; => "Bar!"
+    
     (match '(x 1)
       (('x x) x))
     ; => 1
+    
     (match 5
       (1 'one)
       (2 'two)
       (3 'three)
       (4 'four))
     ; => match error
+    
     (match 5
       (1 'one)
       (2 'two)
@@ -40,22 +45,18 @@ Usage
       (4 'four)
       (t 'otherwise))
     ; => OTHERWISE
+    
     (match '("a" :x 1)
       ((a &key x)
        (list a x)))
     ; => ("a" 1)
+    
     (defun sum (lst)
       (match lst
         (() 0)
         ((x . xs) (+ x (sum xs)))))
     (sum '(1 2 3))
     ; => 6
-
-### match/test
-
-    (match/test test value &body clauses)
-
-Like `match` macro except this macro can take a `test` function for matching values. `(match value &body clauses)` is equivalent to `(match/test #'equal value &body clauses)`. Note that `test` should be a symbol.
 
 ### let+
 
@@ -68,25 +69,23 @@ Unlike `let` macro, `let+` macro tries to bind variables with pattern using `mat
     (let+ ((x 1))
       x)
     ; => 1
+    
     (let+ (((x y) '(1 2)))
       (+ x y))
     ; => 3
+    
     (let+ (((x y) '(1)))
       (+ x y))
     ; => match error
+    
     (let+ ((a b c (values 1 2 3)))
       (list a b c))
     ; => (1 2 3)
+    
     (let+ ((a 1)
            (b a))
       b)
     ; => 1
-
-### let+/test
-
-    (let+/test test bindings &body body)
-
-Like `let+` macro except this macro can take a `test` function for matching values. `(let+ bindings &body body)` is equivalent to `(let+/test #'equal bindings &body body)`. Note that `test` should be a symbol.
 
 License
 -------
