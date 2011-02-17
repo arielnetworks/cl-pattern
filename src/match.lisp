@@ -1,24 +1,29 @@
 (in-package :cl-pattern)
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (defun compile-match-clauses (value clauses)
-    (declare (type symbol value))
-    (if clauses
-        (let+ ((((pattern . body) . rest) clauses)
-               (body `(lambda () ,@body)))
-          (cond
-            ((otherwise-variable-p pattern) body)
-            ((variable-p pattern)
-             `(let+ ((,pattern ,value)) ,body))
-            ((consp pattern)
-             `(handler-case
-                  (let+ ((,pattern ,value)) ,body)
-                (error () ,(compile-match-clauses value rest))))
-            (t `(if (%equal ,value ,pattern)
-                    ,body
-                    ,(compile-match-clauses value rest)))))
-        '(error "match error"))))
+(annot:enable-annot-syntax)
 
-(defmacro match (value &body clauses)
-  (once-only (value)
-    `(funcall ,(compile-match-clauses value clauses))))
+(defmacro %match (vars clauses else)
+  (let ((groups (partition-match-clauses clauses)))
+    (compile-match-groups vars groups else)))
+
+@export
+(defmacro match* (args &body clauses)
+  (loop for arg in args
+        for var = (gensym "VAR")
+        if (atom arg)
+          collect arg into vars
+        else
+          collect var into vars
+          and collect `(,var ,arg) into bindings
+        finally
+     (return
+       (let ((body `(%match ,vars ,clauses (%match-error))))
+         (if bindings
+             `(let ,bindings ,body)
+             body)))))
+
+@export
+(defmacro match (arg &body clauses)
+  `(match* (,arg)
+     ,@(loop for (pattern . then) in clauses
+             collect `((,pattern) ,@then))))

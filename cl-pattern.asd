@@ -7,11 +7,15 @@
 
 (defsystem cl-pattern
   :version "0.1"
-  :depends-on (:alexandria)
-  :components ((:module "src"
-                        :serial t
-                        :components ((:file "package")
-                                     (:file "utils")
-                                     (:file "optimize")
-                                     (:file "let")
-                                     (:file "match")))))
+  :author "Tomohiro Matsuyama"
+  :license "LLGPL"
+  :depends-on (:cl-annot :alexandria)
+  :components
+  ((:module "src"
+    :serial t
+    :components ((:file "package")
+                 (:file "condition")
+                 (:file "pattern")
+                 (:file "case")
+                 (:file "compile")
+                 (:file "match")))))
