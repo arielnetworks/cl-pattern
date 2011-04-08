@@ -1,6 +1,9 @@
 (in-package :cl-pattern)
 (use-syntax annot-syntax)
 
+@export
+(defvar *unbound* nil)
+
 (defmacro %equal (pattern value)
   (typecase pattern
     (null `(null ,value))
@@ -25,6 +28,11 @@
     (:var (list pattern))
     (:cons (append (free-variables (car pattern))
                    (free-variables (cdr pattern))))))
+
+(defun free-variables-bindings (vars)
+  (mapcar (lambda (var)
+            (list var '*unbound*))
+          vars))
 
 (defun optional-patterns (pattern)
   (if (consp pattern)

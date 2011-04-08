@@ -74,6 +74,11 @@
       ((((&optional a))) a))
     nil
     "match optional nest 3")
+(is (let ((*unbound* 1))
+      (match ()
+        ((&optional a) a)))
+    1
+    "match optional *unbound*")
 (is (match '((1) "a")
       (((1 &optional a) "a" &optional b) (list a b)))
     '(nil nil)

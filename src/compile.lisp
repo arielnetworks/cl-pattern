@@ -75,7 +75,9 @@
            collect
            (cons `(,@rest)
                   (if fv
-                      `((let ,fv (declare (ignorable ,@fv)) ,@then))
+                      `((let ,(free-variables-bindings fv)
+                          (declare (ignorable ,@fv))
+                          ,@then))
                       then)))
     ,else))
 
@@ -96,7 +98,9 @@
                      collect
                      (cons `(,par ,pdr ,@rest)
                             (if fv
-                                `((let ,fv (declare (ignorable ,@fv)) ,@then))
+                                `((let ,(free-variables-bindings fv)
+                                    (declare (ignorable ,@fv))
+                                    ,@then))
                                 then))))
         ,else))))
 
