@@ -1,6 +1,5 @@
 (in-package :cl-pattern)
-
-(annot:enable-annot-syntax)
+(use-syntax annot-syntax)
 
 @eval-always
 (defun compile-case-clause (var clause else)

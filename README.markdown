@@ -1,16 +1,24 @@
-cl-pattern
+CL-PATTERN
 ==========
 
-cl-pattern is a very fast ML-like pattern-matching library for Common Lisp.
+CL-PATTERN is a very fast ML-like pattern-matching library for Common
+Lisp.
 
 Usage
 -----
 
-### match
+### Macro: `match`
 
     (match value &body clauses)
 
-`match` macro tries to match `value` with `clauses` and raise errors if no clauses matched. Clause have to be a form of `(pattern form*)`, where `pattern` is a symbol for binding values, an atom for matching values, and a composed form of them. Binding to `_` will be ignored (i.e. `(declare (ignore _))`) automatically and its binding can't be used anywhere. If `pattern` is `_`, its clause will be matched with any value.
+`match` macro tries to match `value` with `clauses` and raise errors
+if no clauses matched. Clause have to be a form of `(pattern form*)`,
+where `pattern` is a symbol for binding values, an atom for matching
+values, and a composed form of them. Binding to `_` will be ignored
+(i.e. `(declare (ignore _))`) automatically and its binding can't be
+used anywhere. If `pattern` is `_`, its clause will be matched with
+any value. `pattern` can have `&optional` patterns, which will be
+`nil` if patterns are not matched.
 
 #### Examples
 
@@ -46,6 +54,14 @@ Usage
       (t 'otherwise))
     ; => OTHERWISE
     
+    (match '(1)
+      ((1 &optional a) a))
+    ; => NIL
+    
+    (match '(1 2)
+      ((1 &optional a) a))
+    ; => 2
+
     (defun sum (lst)
       (match lst
         (() 0)
@@ -53,8 +69,6 @@ Usage
     (sum '(1 2 3))
     ; => 6
 
-License
--------
+----
 
 Copyright (C) 2011  Tomohiro Matsuyama <<tomo@cx4a.org>>.
-Licensed under the LLGPL License.

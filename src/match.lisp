@@ -1,6 +1,5 @@
 (in-package :cl-pattern)
-
-(annot:enable-annot-syntax)
+(use-syntax annot-syntax)
 
 (defmacro %match (vars clauses else)
   (let ((groups (partition-match-clauses clauses)))
@@ -17,10 +16,10 @@
           and collect `(,var ,arg) into bindings
         finally
      (return
-       (let ((body `(%match ,vars ,clauses (%match-error))))
+       (let ((then `(%match ,vars ,clauses (%match-error))))
          (if bindings
-             `(let ,bindings ,body)
-             body)))))
+             `(let ,bindings ,then)
+             then)))))
 
 @export
 (defmacro match (arg &body clauses)

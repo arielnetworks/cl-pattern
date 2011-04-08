@@ -1,10 +1,8 @@
 (in-package :cl-user)
-
 (defpackage cl-annot-test
   (:use :cl
         :cl-test-more
         :cl-pattern))
-
 (in-package :cl-annot-test)
 
 (is (match 1
@@ -15,6 +13,10 @@
       ((x y) (+ x y)))
     3
     "match cons")
+(is (match '("a")
+      (("a") 1))
+    1
+    "match string")
 (is (match '(:bar 1)
       ((:foo _) "Foo!")
       ((:bar _) "Bar!"))
@@ -39,6 +41,43 @@
       (_ 'otherwise))
     'otherwise
     "match otherwise")
+(is (match ()
+      ((&optional a) a))
+    nil
+    "match optional empty")
+(is (match '(1)
+      ((&optional a b) (list a b)))
+    '(1 nil)
+    "match optional lack")
+(is (match '(1 2)
+      ((&optional a b) (+ a b)))
+    3
+    "match optional enough")
+(is (match '(1 2)
+      ((&optional a) a)
+      ((&optional a b) (+ a b)))
+    3
+    "match optional multi")
+(is (match '(())
+      (((&optional a)) a))
+    nil
+    "match optional nest empty")
+(is (match '((1))
+      (((&optional a b)) (list a b)))
+    '(1 nil)
+    "match optional nest lack")
+(is (match '((1 2))
+      (((&optional a b)) (+ a b)))
+    3
+    "match optional nest enough")
+(is (match '((()))
+      ((((&optional a))) a))
+    nil
+    "match optional nest 3")
+(is (match '((1) "a")
+      (((1 &optional a) "a" &optional b) (list a b)))
+    '(nil nil)
+    "match complex")
 
 (defun sum (list)
   (match list

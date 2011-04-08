@@ -1,6 +1,5 @@
 (in-package :cl-pattern)
-
-(annot:enable-annot-syntax)
+(use-syntax annot-syntax)
 
 @export
 (define-condition match-error (error) ())
