@@ -9,7 +9,7 @@ Usage
 
 ### Macro: `match`
 
-    (match value &body clauses)
+    match value &body clauses
 
 `match` macro tries to match `value` with `clauses` and raise errors
 if no clauses matched. Clause have to be a form of `(pattern form*)`,
@@ -68,6 +68,14 @@ any value. `pattern` can have `&optional` patterns, which will be
         ((x . xs) (+ x (sum xs)))))
     (sum '(1 2 3))
     ; => 6
+
+### Macro: `lambda-match`
+
+    lambda-match &body clauses
+
+`lambda-match` is a shorthand for lambda and match. For example,
+`(lambda-match (('foo a) a))` will be expanded as `(lambda (arg)
+(match arg (('foo a) a)))`.
 
 ----
 

@@ -26,3 +26,9 @@
   `(match* (,arg)
      ,@(loop for (pattern . then) in clauses
              collect `((,pattern) ,@then))))
+
+@export
+(defmacro lambda-match (&body clauses)
+  (with-gensyms (arg)
+    `(lambda (,arg)
+       (match ,arg ,@clauses))))

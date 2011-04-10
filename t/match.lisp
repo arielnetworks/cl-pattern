@@ -93,4 +93,13 @@
     6
     "sum")
 
+(is-expand (lambda-match (('foo a) a))
+           (lambda ($arg)
+             (match $arg
+               (('foo a) a)))
+           "lambda-match expansion")
+(is (funcall (lambda-match (('foo a) a)) '(foo 1))
+    1
+    "lambda-match")
+
 (finalize)
