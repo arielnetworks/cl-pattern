@@ -162,6 +162,80 @@ is the main difference between `match` and `match*`.
 
 See `with-match-parameters` for details.
 
+Micro Benchmark
+---------------
+
+Here is a micro benchmark comparing
+
+    (match triple
+      ((a &optional b c) (+ a b c)))
+
+and
+
+    (destructuring-bind (a &optional b c)
+        triple
+      (+ a b c))
+
+* 10000000 times
+* with `(declare (optimized (speed 3)))`
+* on Core 2 Duo 1.6GHz
+
+### Allegro CL v8.2 (Express Edition)
+
+On Allegro CL, `destructuring-bind` seems to be tuned properly.
+
+    MATCH
+    ; cpu time (non-gc) 0.190000 sec user, 0.000000 sec system
+    ; cpu time (gc)     0.000000 sec user, 0.000000 sec system
+    ; cpu time (total)  0.190000 sec user, 0.000000 sec system
+    ; real time  0.188305 sec
+    ; space allocation:
+    ;  0 cons cells, 0 other bytes, 0 static bytes
+    DESTRUCTURING-BIND
+    ; cpu time (non-gc) 0.040000 sec user, 0.000000 sec system
+    ; cpu time (gc)     0.000000 sec user, 0.000000 sec system
+    ; cpu time (total)  0.040000 sec user, 0.000000 sec system
+    ; real time  0.040888 sec
+    ; space allocation:
+    ;  0 cons cells, 0 other bytes, 0 static bytes
+
+### SBCL v1.0.47
+
+On SBCL, even in such the simple case, `destructuring-bind` seems to
+be a very high cost operation.
+
+    MATCH
+    Evaluation took:
+      0.007 seconds of real time
+      0.010000 seconds of total run time (0.010000 user, 0.000000 system)
+      142.86% CPU
+      10,040,848 processor cycles
+      0 bytes consed
+      
+    DESTRUCTURING-BIND
+    Evaluation took:
+      0.983 seconds of real time
+      0.980000 seconds of total run time (0.970000 user, 0.010000 system)
+      99.69% CPU
+      1,568,842,248 processor cycles
+      0 bytes consed
+
+### ECL v11.1.1
+
+On ECL, `match` and `destructuring-bind` are almost same cost in this
+simple case.
+
+    MATCH
+    real time : 0.883 secs
+    run time  : 0.890 secs
+    gc count  : 2 times
+    consed    : 66339433 bytes
+    DESTRUCTURING-BIND
+    real time : 0.970 secs
+    run time  : 0.960 secs
+    gc count  : 1 times
+    consed    : 66346216 bytes
+
 Supported Implementations
 -------------------------
 

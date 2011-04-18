@@ -1,9 +1,8 @@
-(in-package :cl-user)
-(defpackage cl-annot-test
+(defpackage cl-pattern.test
   (:use :cl
         :cl-test-more
         :cl-pattern))
-(in-package :cl-annot-test)
+(in-package :cl-pattern.test)
 
 (is (match 1
       (x x))
