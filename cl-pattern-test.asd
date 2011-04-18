@@ -4,7 +4,8 @@
 (in-package :cl-pattern-test-asd)
 
 (defsystem cl-pattern-test
-  :depends-on (:cl-test-more :cl-pattern)
-  :components ((:module "t"
+  :depends-on (:cl-test-more
+               :cl-pattern)
+  :components ((:module "tests"
                 :serial t
                 :components ((:file "match")))))

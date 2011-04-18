@@ -4,13 +4,14 @@
 @export
 (defvar *unbound* nil)
 
+@export
+(defmacro pattern-equal (pattern value)
+  `(equal ,pattern ,value))
+
 (defmacro %equal (pattern value)
   (typecase pattern
-    (null `(null ,value))
-    (string `(equal ,pattern ,value))
-    (atom `(eq ,pattern ,value))
-    (cons `(eq ',(cadr pattern) ,value))
-    (t `(equal ,pattern ,value))))
+    (cons `(pattern-equal ',(cadr pattern) ,value))
+    (t `(pattern-equal ,pattern ,value))))
 
 (defun pattern-type (pattern)
   (etypecase pattern

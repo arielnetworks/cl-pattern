@@ -83,6 +83,12 @@
       (((1 &optional a) "a" &optional b) (list a b)))
     '(nil nil)
     "match complex")
+(is (macrolet ((pattern-equal (a b)
+                 `(string-equal ,a ,b)))
+      (match :a
+        ("a" 1)))
+    1
+    "match with different equality")
 
 (defun sum (list)
   (match list

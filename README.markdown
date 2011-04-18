@@ -17,8 +17,9 @@ where `pattern` is a symbol for binding values, an atom for matching
 values, and a composed form of them. Binding to `_` will be ignored
 (i.e. `(declare (ignore _))`) automatically and its binding can't be
 used anywhere. If `pattern` is `_`, its clause will be matched with
-any value. `pattern` can have `&optional` patterns, which will be
-`*unbound*` if patterns are not matched.
+any value. `pattern` can have `&optional` patterns, which will be a
+variable `*unbound*`, which is usually `nil`, if patterns are not
+matched.
 
 #### Examples
 
