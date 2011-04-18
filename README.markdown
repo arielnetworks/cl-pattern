@@ -104,7 +104,7 @@ clause. Here is an example:
       (x x))
     ;;=> 1
 
-If the pattern is a cons, there is two cases you have to know. If a
+If the pattern is a cons, there is three cases you have to know. If a
 `car` of the cons is `quote`, the pattern is called a constant
 pattern, which can be matched with a same value of a `cadr` of the
 cons. Here is an example:
@@ -113,8 +113,23 @@ cons. Here is an example:
       ('x 1))
     ;;=> 1
 
-In another case, the pattern is called a structure pattern, which can
-be matched if a `car` of the pattern and a `cdr` of the pattern are
+Second case, if the `car` of the cons is `&optional`, the pattern is
+called a optional variable pattern, which can be matched with any
+value as same as usual variable patterns, but it can be not
+matched. If not matched, we say the pattern is unbound, meaning some
+undefined value will bound to the pattern. See "Match Parameters" for
+details. Here is an example:
+
+    (match '(1)
+      ((1 &optional x) x))
+    ;;=> NIL
+    
+    (match '(1 2)
+      ((1 &optional x) x))
+    ;;=> 2
+
+Othewise, the pattern is called a structure pattern, which can be
+matched if a `car` of the pattern and a `cdr` of the pattern are
 matched with a value. Here is an example:
 
     (match '(1 . 2)
