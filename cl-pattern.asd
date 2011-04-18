@@ -15,7 +15,7 @@
   ((:module "src"
     :serial t
     :components ((:file "package")
-                 (:file "condition")
+                 (:file "conditions")
                  (:file "pattern")
                  (:file "case")
                  (:file "compile")

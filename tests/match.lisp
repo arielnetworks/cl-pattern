@@ -74,8 +74,8 @@
       ((((&optional a))) a))
     nil
     "match optional nest 3")
-(is (let ((*unbound* 1))
-      (match ()
+(is (with-match-parameters (:unbound 1)
+      (match* ()
         ((&optional a) a)))
     1
     "match optional *unbound*")
@@ -83,12 +83,11 @@
       (((1 &optional a) "a" &optional b) (list a b)))
     '(nil nil)
     "match complex")
-(is (macrolet ((pattern-equal (a b)
-                 `(string-equal ,a ,b)))
-      (match :a
+(is (with-match-parameters (:test string-equal)
+      (match* :a
         ("a" 1)))
     1
-    "match with different equality")
+    "match with custom equal function")
 
 (defun sum (list)
   (match list
