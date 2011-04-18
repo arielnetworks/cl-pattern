@@ -6,6 +6,6 @@
 (defsystem cl-pattern-test
   :depends-on (:cl-test-more
                :cl-pattern)
-  :components ((:module "tests"
+  :components ((:module "test"
                 :serial t
                 :components ((:file "match")))))
