@@ -1,10 +1,14 @@
 (in-package :cl-pattern)
 (use-syntax annot-syntax)
+(declaim (optimize (speed 3)))
 
 (defmacro %equal (pattern value)
   (typecase pattern
-    (cons `(pattern-equal ',(cadr pattern) ,value))
-    (t `(pattern-equal ,pattern ,value))))
+    (null `(null ,value))
+    (cons `(eq ',(cadr pattern) ,value))
+    ((or symbol character) `(eq ,pattern ,value))
+    (number `(eql ,pattern ,value))
+    (t `(equal ,pattern ,value))))
 
 (defun pattern-type (pattern)
   (etypecase pattern
@@ -22,10 +26,6 @@
     (:var (list pattern))
     (:cons (append (free-variables (car pattern))
                    (free-variables (cdr pattern))))))
-
-(defun free-variables-bindings (vars)
-  (mapcar (lambda (var) (list var 'pattern-unbound))
-          vars))
 
 (defun optional-patterns (pattern)
   (if (consp pattern)

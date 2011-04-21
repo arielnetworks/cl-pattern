@@ -73,20 +73,10 @@
       ((((&optional a))) a))
     nil
     "match optional nest 3")
-(is (with-match-parameters (:unbound 1)
-      (match* ()
-        ((&optional a) a)))
-    1
-    "match optional *unbound*")
 (is (match '((1) "a")
       (((1 &optional a) "a" &optional b) (list a b)))
     '(nil nil)
     "match complex")
-(is (with-match-parameters (:test string-equal)
-      (match* :a
-        ("a" 1)))
-    1
-    "match with custom equal function")
 
 (defun sum (list)
   (match list

@@ -1,5 +1,6 @@
 (in-package :cl-pattern)
 (use-syntax annot-syntax)
+(declaim (optimize (speed 3)))
 
 @eval-always
 (defun compile-case-clause (var clause else)

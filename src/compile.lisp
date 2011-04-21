@@ -1,5 +1,6 @@
 (in-package :cl-pattern)
 (use-syntax annot-syntax)
+(declaim (optimize (speed 3)))
 
 (defun partition-match-clauses (clauses)
   (loop with groups
@@ -75,7 +76,7 @@
            collect
            (cons `(,@rest)
                   (if fv
-                      `((let ,(free-variables-bindings fv)
+                      `((let ,fv
                           (declare (ignorable ,@fv))
                           ,@then))
                       then)))
@@ -98,7 +99,7 @@
                      collect
                      (cons `(,par ,pdr ,@rest)
                             (if fv
-                                `((let ,(free-variables-bindings fv)
+                                `((let ,fv
                                     (declare (ignorable ,@fv))
                                     ,@then))
                                 then))))
