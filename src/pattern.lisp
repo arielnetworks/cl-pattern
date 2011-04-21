@@ -12,7 +12,7 @@
 
 (defun pattern-type (pattern)
   (etypecase pattern
-    (null :const)
+    ((member t nil) :const)
     (keyword :const)
     (symbol :var)
     (cons (case (car pattern)

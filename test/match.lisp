@@ -8,6 +8,14 @@
       (x x))
     1
     "match variable")
+(is (match t
+      (t 1))
+    1
+    "match t")
+(is (match nil
+      (nil 1))
+    1
+    "match nil")
 (is (match '(1 2)
       ((x y) (+ x y)))
     3
