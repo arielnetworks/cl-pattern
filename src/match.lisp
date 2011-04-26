@@ -2,7 +2,10 @@
 (use-syntax annot-syntax)
 (declaim (optimize (speed 3)))
 
-(defmacro %match (vars clauses else)
+(defmacro %match (vars clauses &optional else)
+  (unless else
+    (setf else `(%match-error (list ,@vars)
+                              ',(mapcar #'car clauses))))
   (let ((groups (partition-match-clauses clauses)))
     (compile-match-groups vars groups else)))
 
@@ -16,10 +19,11 @@
           and collect `(,var ,arg) into bindings
         finally
      (return
-       (let ((then `(%match ,vars ,clauses (%match-error))))
+       (let ((then `(%match ,vars ,clauses)))
          (if bindings
              `(let ,bindings ,then)
              then)))))
+
 @export
 (defmacro match (arg &body clauses)
   `(match* (,arg)

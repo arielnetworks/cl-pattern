@@ -51,7 +51,7 @@
                  for sub-clauses = (nreverse (cdr pair))
                  collect
                  `(,constant
-                    (%match ,(cdr vars) ,sub-clauses (%match-error))))
+                    (%match ,(cdr vars) ,sub-clauses)))
           ,else))))
 
 (defun compile-match-constructor (vars clauses else)
