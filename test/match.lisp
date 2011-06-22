@@ -1,8 +1,11 @@
+(in-package :cl-user)
 (defpackage cl-pattern.test
   (:use :cl
         :cl-test-more
         :cl-pattern))
 (in-package :cl-pattern.test)
+
+(plan 22)
 
 (is (match 1
       (x x))
@@ -45,6 +48,11 @@
       (2 'two)
       (3 'three)
       (4 'four)
+      (_ 'otherwise))
+    'otherwise
+    "match otherwise")
+(is (match '(:a :b :c)
+      ((:a :b) t)
       (_ 'otherwise))
     'otherwise
     "match otherwise")
