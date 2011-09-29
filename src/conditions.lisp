@@ -1,5 +1,5 @@
 (in-package :cl-pattern)
-(use-syntax annot-syntax)
+(use-syntax :annot)
 
 @export
 @export-accessors

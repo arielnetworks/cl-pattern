@@ -1,5 +1,5 @@
 (in-package :cl-pattern)
-(use-syntax annot-syntax)
+(use-syntax :annot)
 (declaim (optimize (speed 3)))
 
 (defun partition-match-clauses (clauses)
